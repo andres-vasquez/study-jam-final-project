@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">Golazo!</string>
+    <string name="content_authority">proyectos.avdc.com.studyjamproyectofinal</string>
+    <string name="action_share">Compartir</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="splash_page_title">Splash Page!</string>
+    <string name="title_activity_main">Golazo!</string>
+    <string name="drawer_open">Abierto</string>
+    <string name="drawer_close">Cerrado</string>
+
+    <!-- Nav bar -->
+    <string name="home">&#xf015;  Home</string>
+    <string name="posiciones">&#xf0ce;  Posiciones</string>
+    <string name="equipos">&#xf0c0;  Clubes</string>
+
+    <!-- Header Tabla posiciones -->
+    <string name="pj">PJ</string>
+    <string name="pg">PG</string>
+    <string name="pp">PP</string>
+    <string name="pe">PE</string>
+    <string name="gd">GD</string>
+    <string name="pts">PTS</string>
+
+
+
+    <!-- Strings de ejemplos -->
+    <string name="equipo1">Bolivar</string>
+    <string name="equipos2">The Strongest</string>
+    <string name="marcador">3 - 1</string>
+    <string name="texto_central">1T  36:31</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_detalle_equipo">Detalle Equipo</string>
+    <string name="title_activity_detalle_partido">Detalle Partido</string>
+
+    <string name="activar_noticicaciones">Deseo recibir notificaciones</string>
+    <string name="titulo_jugadores">Jugadores</string>
+
+    <string name="pref_intervalo_label">Intervalo de tiempo en búsqueda de Goles</string>
+    <string name="pref_intervalo_key">intervalo</string>
+    <string name="pref_intervalo_default">15</string>
+
+</resources>

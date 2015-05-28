@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditTextPreference
+        android:title="@string/pref_intervalo_label"
+        android:textColor="@color/actionbar"
+        android:textColorLink="@color/material_blue_grey_900"
+        android:textColorHint="@color/material_blue_grey_900"
+        android:textColorHighlight="@color/material_blue_grey_900"
+        android:key="@string/pref_intervalo_key"
+        android:defaultValue="@string/pref_intervalo_default"
+        android:inputType="number"
+        android:singleLine="true" />
+
+
+
+</PreferenceScreen>

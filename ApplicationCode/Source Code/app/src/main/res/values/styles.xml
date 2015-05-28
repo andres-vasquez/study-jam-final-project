@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:background"  tools:ignore="NewApi">@color/actionbar</item>
+        <item name="background">@color/actionbar</item>
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
+    <!-- Settings activity theme. -->
+    <style name="SettingsTheme" parent="AppTheme">
+    </style>
+
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/blanco</item>
+        <item name="android:actionBarStyle"  tools:ignore="NewApi">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+
+</resources>
