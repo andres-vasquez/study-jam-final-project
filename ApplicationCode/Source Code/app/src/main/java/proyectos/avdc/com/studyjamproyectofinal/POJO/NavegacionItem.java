@@ -10,11 +10,13 @@ public class NavegacionItem
         this.id = id;
         this.icono = icono;
         this.texto = texto;
+        this.setSeleccionado(false);
     }
 
     public long id;
     public int icono;
     public String texto;
+    public boolean seleccionado;
 
     public long getId() {
         return id;
@@ -38,5 +40,13 @@ public class NavegacionItem
 
     public void setTexto(String texto) {
         this.texto = texto;
+    }
+
+    public boolean isSeleccionado() {
+        return seleccionado;
+    }
+
+    public void setSeleccionado(boolean seleccionado) {
+        this.seleccionado = seleccionado;
     }
 }

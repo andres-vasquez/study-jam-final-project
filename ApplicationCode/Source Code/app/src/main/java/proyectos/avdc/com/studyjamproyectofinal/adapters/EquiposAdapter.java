@@ -54,7 +54,7 @@ public class EquiposAdapter extends RecyclerView.Adapter<EquiposViewHolder> {
     public void onBindViewHolder(final EquiposViewHolder eventosViewHolder, int i) {
         final EquiposItem exp = itemsFiltrados.get(i);
         eventosViewHolder.txtNombreEquipo.setText(exp.getStrNombreEquipo());
-        eventosViewHolder.imgEquipo.setImageResource(Media.ObtenerBanderasEquipo(exp.getStrNombreEquipo()));
+        eventosViewHolder.imgEquipo.setImageResource(new Media(context).ObtenerBanderasEquipo(exp.getStrNombreEquipo()));
 
         eventosViewHolder.imgEquipo.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,10 @@ public class Equipos extends Fragment {
     private EquiposAdapter adapter;
     final List<EquiposItem> items = new ArrayList<EquiposItem>();
     public RecyclerView recList;
+
+    public static int FIVE_COLUMNS=5;
+    public static int FOUR_COLUMNS=5;
+    public static int THREE_COLUMNS=5;
 
     public Equipos() {
     }
@@ -46,7 +51,7 @@ public class Equipos extends Fragment {
 
         switch(screenSize) {
             case Configuration.SCREENLAYOUT_SIZE_XLARGE:
-                llm = new GridLayoutManager(getActivity(),5);
+                llm = new GridLayoutManager(getActivity(),FIVE_COLUMNS);
                 break;
             case Configuration.SCREENLAYOUT_SIZE_NORMAL:
                 llm = getCountByOrientation();
@@ -67,7 +72,8 @@ public class Equipos extends Fragment {
             List<EquiposItem> lstEquiposLocal = Funcionesdb.LlenarEquipos(getActivity());
             if (lstEquiposLocal.size() == 0)
                 LlenarEquipos();
-            else {
+            else
+            {
                 for (EquiposItem item : lstEquiposLocal)
                     adapter.updateList(item);
             }
@@ -79,9 +85,9 @@ public class Equipos extends Fragment {
     {
         int orientation = getResources().getConfiguration().orientation;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE)
-            return new GridLayoutManager(getActivity(),4);
+            return new GridLayoutManager(getActivity(),FOUR_COLUMNS);
         else
-            return new GridLayoutManager(getActivity(),3);
+            return new GridLayoutManager(getActivity(),THREE_COLUMNS);
     }
 
     private void LlenarEquipos()

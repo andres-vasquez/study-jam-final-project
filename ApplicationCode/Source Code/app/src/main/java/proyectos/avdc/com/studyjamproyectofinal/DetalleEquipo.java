@@ -38,17 +38,18 @@ public class DetalleEquipo extends ActionBarActivity {
     private int seleccionado = 99;
     private List<EquiposItem> equipos = new ArrayList<EquiposItem>();
     private List<Fragment> fragments = new ArrayList<Fragment>();
+    private List<NavegacionItem> itemsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_equipo);
 
-        if(savedInstanceState!=null)
-            seleccionado=savedInstanceState.getInt("posicion");
+        if (savedInstanceState != null)
+            seleccionado = savedInstanceState.getInt("posicion");
+
 
         context = this;
-
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -60,8 +61,9 @@ public class DetalleEquipo extends ActionBarActivity {
         fragments = llenarFragments(equipos = Funcionesdb.LlenarEquipos(context));
         drawer_list = (ListView) findViewById(R.id.left_drawer);
 
+        if (itemsMenu == null)
+            itemsMenu = llenarItemsMenu(equipos);
 
-        List<NavegacionItem> itemsMenu = llenarItemsMenu(equipos);
         adpater = new NavegacionAdapter(itemsMenu, DetalleEquipo.this);
         drawer_list.setAdapter(adpater);
 
@@ -74,13 +76,14 @@ public class DetalleEquipo extends ActionBarActivity {
             }
         });
 
-        String jsonEquipo="";
-        if(seleccionado==99)//Primera vez
+        String jsonEquipo = "";
+        if (seleccionado == 99)//Primera vez
         {
             Intent a = getIntent();
             jsonEquipo = a.getStringExtra("objEquipo");
         }
 
+        //Si recibe datos
         if (jsonEquipo.compareTo("") != 0) {
             int index = 0;
             for (EquiposItem equiposItem : equipos) {
@@ -107,18 +110,27 @@ public class DetalleEquipo extends ActionBarActivity {
         }
     }
 
-
     private List<NavegacionItem> llenarItemsMenu(List<EquiposItem> lstEquiposItems) {
         List<NavegacionItem> itemsMenu = new ArrayList<NavegacionItem>();
         for (EquiposItem equiposItem : lstEquiposItems)
             itemsMenu.add(new NavegacionItem(equiposItem.getIntIdEquipo(),
-                    Media.ObtenerBanderasEquipo(equiposItem.getStrNombreEquipo()),
+                    new Media(context).ObtenerBanderasEquipo(equiposItem.getStrNombreEquipo()),
                     equiposItem.getStrNombreEquipo()));
         return itemsMenu;
     }
 
-    public void selectItem(int position)
-    {
+    private void BuscarEquipoSeleccionado(int intIdEquipo) {
+        for (NavegacionItem navegacionItem : itemsMenu) {
+            if (navegacionItem.getId() == intIdEquipo) {
+                navegacionItem.setSeleccionado(true);
+            }
+            else
+                navegacionItem.setSeleccionado(false);
+            adpater.notifyDataSetChanged();
+        }
+    }
+
+    public void selectItem(int position) {
         String titulo = "";
         Fragment f = fragments.get(position);
         if (f.getArguments() == null) {
@@ -128,8 +140,9 @@ public class DetalleEquipo extends ActionBarActivity {
         }
 
         titulo = equipos.get(position).getStrNombreEquipo();
-        if (seleccionado != position)
-        {
+        BuscarEquipoSeleccionado(equipos.get(position).intIdEquipo);
+
+        if (seleccionado != position) {
             FragmentManager fm = getSupportFragmentManager();
             Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.main_content);
             if (oldFragment != null)
@@ -143,14 +156,11 @@ public class DetalleEquipo extends ActionBarActivity {
                         .addToBackStack("tag")
                         .replace(R.id.main_content, f)
                         .commit();
-        }
-        else {
+        } else {
             Log.e("Diferentes", "Nop");
         }
 
         seleccionado = position;
-        drawer_list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        drawer_list.setItemChecked(position, true);
         setTitle(titulo);
 
         if (drawer_layout != null)
@@ -206,6 +216,6 @@ public class DetalleEquipo extends ActionBarActivity {
     @Override
     public void onSaveInstanceState(Bundle savedState) {
         super.onSaveInstanceState(savedState);
-        savedState.putInt("posicion",seleccionado);
+        savedState.putInt("posicion", seleccionado);
     }
 }

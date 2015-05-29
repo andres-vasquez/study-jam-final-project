@@ -164,7 +164,7 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
                 format = new SimpleDateFormat("hh:mm");
                 String soloHora=format.format(newDate);
 
-                PartidosItem partido = new PartidosItem(contador, match.getHome_team(), match.getAway_team(), match.getHome_score() + " - " + match.getAway_score(),soloFecha+"\n"+soloHora , Media.ObtenerBanderas(match.getHome_badge()), Media.ObtenerBanderas(match.getAway_badge()),match);
+                PartidosItem partido = new PartidosItem(contador, match.getHome_team(), match.getAway_team(), match.getHome_score() + " - " + match.getAway_score(),soloFecha+"\n"+soloHora , new Media(getActivity()).ObtenerBanderas(match.getHome_badge()), new Media(getActivity()).ObtenerBanderas(match.getAway_badge()),match);
                 adapter.updateList(partido);
                 contador++;
             }

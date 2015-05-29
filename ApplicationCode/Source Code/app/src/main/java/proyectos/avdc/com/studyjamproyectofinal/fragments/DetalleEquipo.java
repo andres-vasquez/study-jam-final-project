@@ -17,7 +17,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class DetalleEquipo extends Fragment {
     private TextView txtPts;
 
     private LinearLayout llJugadores;
-    private List<String> jugadores=new ArrayList<String>();
+    List<JugadoresItem> lstJugadores;
     private CheckBox chkNotificaciones;
     private ScrollView scroll;
 
@@ -82,6 +84,16 @@ public class DetalleEquipo extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState!=null)
+        {
+            try {
+                String jsonJugadores = savedInstanceState.getString("jugadores");
+                Type listType = new TypeToken<ArrayList<JugadoresItem>>() {
+                }.getType();
+                lstJugadores = new Gson().fromJson(jsonJugadores, listType);
+            }catch (Exception e){}
+        }
     }
 
     @Override
@@ -100,7 +112,7 @@ public class DetalleEquipo extends Fragment {
         if ((jsonEquipo = bundle.getString("objEquipo")).compareTo("") != 0)
         {
             EquiposItem objEquipo = new Gson().fromJson(jsonEquipo, EquiposItem.class);
-            imgEquipo.setImageResource(Media.ObtenerBanderasEquipo(objEquipo.getStrNombreEquipo()));
+            imgEquipo.setImageResource(new Media(getActivity()).ObtenerBanderasEquipo(objEquipo.getStrNombreEquipo()));
             txtNombreEquipo.setText(objEquipo.getStrNombreEquipo());
             llJugadores=(LinearLayout)vista.findViewById(R.id.lstJugadores);
             scroll=(ScrollView)vista.findViewById(R.id.scroll);
@@ -119,18 +131,19 @@ public class DetalleEquipo extends Fragment {
                 }
             });
 
-            JugadoresAsync jugadoresAsync=new JugadoresAsync(getActivity(), new JugadoresAsync.Receiver() {
-                @Override
-                public void onLoad(int totalMatches, List<JugadoresItem> lstJugadores) {
-                    for(JugadoresItem jugador : lstJugadores)
-                    {
-                        TextView tv=new TextView(getActivity());
-                        tv.setText(jugador.getFirstname()+" "+jugador.getLastname());
-                        llJugadores.addView(tv);
+            if(lstJugadores==null) {
+                JugadoresAsync jugadoresAsync = new JugadoresAsync(getActivity(), new JugadoresAsync.Receiver() {
+                    @Override
+                    public void onLoad(int totalMatches, List<JugadoresItem> lstJugadores) {
+                        MostrarJugadores(lstJugadores);
                     }
-                }
-            });
-            jugadoresAsync.execute(objEquipo.getIntIdEquipo());
+                });
+                jugadoresAsync.execute(objEquipo.getIntIdEquipo());
+            }
+            else
+            {
+                MostrarJugadores(lstJugadores);
+            }
         }
 
         txtPj = (TextView) vista.findViewById(R.id.txtPj);
@@ -148,6 +161,20 @@ public class DetalleEquipo extends Fragment {
         txtPts.setText("3");
 
         return vista;
+    }
+
+    public void MostrarJugadores(List<JugadoresItem> lstJugadores)
+    {
+        for(JugadoresItem jugador : lstJugadores)
+        {
+            try {
+                TextView tv = new TextView(getActivity());
+                tv.setText(jugador.getFirstname() + " " + jugador.getLastname());
+                llJugadores.addView(tv);
+            }catch (NullPointerException e)
+            {
+            }
+        }
     }
 
     private void ChkNoticicaciones(int idEquipo) {

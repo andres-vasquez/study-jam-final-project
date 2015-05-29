@@ -83,7 +83,7 @@ public class PosicionesAdapter extends BaseAdapter{
         PosicionesItem item=items.get(position);
         EquiposItem equipo=item.getEquipo();
         holder.txtNombreEquipoSm.setText(equipo.getStrNombreEquipo());
-        holder.imImagenEquipoSm.setImageResource(Media.ObtenerBanderasEquipo(equipo.getStrNombreEquipo()));
+        holder.imImagenEquipoSm.setImageResource(new Media(context).ObtenerBanderasEquipo(equipo.getStrNombreEquipo()));
 
         holder.txtPj.setText(""+item.getIntPj());
         holder.txtPg.setText(""+item.getIntPg());

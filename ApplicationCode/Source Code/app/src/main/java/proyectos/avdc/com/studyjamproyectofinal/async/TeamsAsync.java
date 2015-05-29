@@ -90,7 +90,6 @@ public class TeamsAsync extends AsyncTask<Integer, Integer, List<EquiposItem>> {
                 {
                     item.setIntImgEquipo(Media.ObtenerBanderasEquipo(item.getStrNombreEquipo()));
                     resultado.add(item);
-                    Funcionesdb.LlenarEquipo(context,item);
                 }
                 receiver.onLoad(TotalMatches, resultado);
             }

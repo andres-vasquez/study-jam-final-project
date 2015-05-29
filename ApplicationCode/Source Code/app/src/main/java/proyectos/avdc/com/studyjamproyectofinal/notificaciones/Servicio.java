@@ -53,7 +53,7 @@ public class Servicio extends Service {
                         Notification notificacion = new NotificationCompat.Builder(Servicio.this)
                                 .setContentTitle("Goooooooooooool!!!")
                                 .setContentText(equiposItem.getStrNombreEquipo() + ": " + goles.getPlayer_shortname() + " (" + goles.getTime() + "')")
-                                .setSmallIcon(Media.ObtenerBanderasEquipo(equiposItem.getStrNombreEquipo()))
+                                .setSmallIcon(new Media(context).ObtenerBanderasEquipo(equiposItem.getStrNombreEquipo()))
                                 .setContentIntent(pIntent)
                                 .setDefaults(Notification.DEFAULT_SOUND)
                                 .setVibrate(new long[]{1000, 1000})

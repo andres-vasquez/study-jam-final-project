@@ -39,7 +39,7 @@ public class Splash extends ActionBarActivity {
         }
         else
         {
-            Log.e("Equipos", "Ya hay en db˚");
+            Log.e("Equipos", "Ya hay en db");
             TimeOut();
         }
 
@@ -70,5 +70,11 @@ public class Splash extends ActionBarActivity {
         public List<EquiposItem> getResult() {
             return result;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedState) {
+        super.onSaveInstanceState(savedState);
+        savedState.putInt("iniciada", 1);
     }
 }

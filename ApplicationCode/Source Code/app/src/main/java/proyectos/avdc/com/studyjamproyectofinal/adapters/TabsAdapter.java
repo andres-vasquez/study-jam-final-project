@@ -60,17 +60,6 @@ public class TabsAdapter extends FragmentPagerAdapter implements TabHost.OnTabCh
         mViewPager.setOnPageChangeListener(this);
     }
 
-        /*public TabsAdapter(Fragment fragment, TabHost tabHost, ViewPager pager) {
-            super(fragment.getChildFragmentManager());
-            mContext = fragment.getActivity();
-            mTabHost = tabHost;
-            mViewPager = pager;
-            mTabHost.setOnTabChangedListener(this);
-            mViewPager.setAdapter(this);
-            mViewPager.setOnPageChangeListener(this);
-        }*/
-
-
     public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
         tabSpec.setContent(new DummyTabFactory(mContext));
         String tag = tabSpec.getTag();

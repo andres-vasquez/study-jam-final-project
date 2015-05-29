@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,18 +58,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if (item.getItemId() == R.id.action_info)
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_info) {
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    switch (which){
+                    switch (which) {
                         case DialogInterface.BUTTON_POSITIVE:
                             break;
                     }
@@ -80,11 +79,14 @@ public class MainActivity extends ActionBarActivity {
                     " \n -Andrés Vasquez")
                     .setPositiveButton("Entendido", dialogClickListener);
             builder.show();
-        }
-        else if(item.getItemId() == R.id.action_settings)
-        {
+        } else if (item.getItemId() == R.id.action_settings) {
             startActivity(new Intent(this, Preferencias.class));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }
