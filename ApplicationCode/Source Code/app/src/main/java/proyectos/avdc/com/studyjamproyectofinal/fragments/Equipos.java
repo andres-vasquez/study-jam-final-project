@@ -26,8 +26,8 @@ public class Equipos extends Fragment {
     public RecyclerView recList;
 
     public static int FIVE_COLUMNS=5;
-    public static int FOUR_COLUMNS=5;
-    public static int THREE_COLUMNS=5;
+    public static int FOUR_COLUMNS=4;
+    public static int THREE_COLUMNS=3;
 
     public Equipos() {
     }

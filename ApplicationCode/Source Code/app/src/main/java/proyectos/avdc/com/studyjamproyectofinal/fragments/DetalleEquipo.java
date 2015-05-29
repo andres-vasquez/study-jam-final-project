@@ -187,4 +187,9 @@ public class DetalleEquipo extends Fragment {
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedState) {
+        super.onSaveInstanceState(savedState);
+        savedState.putString("jugadores", new Gson().toJson(lstJugadores));
+    }
 }
