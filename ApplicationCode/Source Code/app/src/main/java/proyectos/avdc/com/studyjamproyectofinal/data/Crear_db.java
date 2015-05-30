@@ -56,9 +56,17 @@ public class Crear_db  extends SQLiteOpenHelper
                 GolazoContract.EquiposEntry.COLUMN_IMG + " INTEGER " +
                 " );";
 
+        final String SQL_CREATE_JUGADORES_TABLE = "CREATE TABLE " + GolazoContract.JugadoresEntry.TABLE_NAME + " (" +
+                GolazoContract.JugadoresEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                GolazoContract.JugadoresEntry.COLUMN_ID_TEAM + " INTEGER, " +
+                GolazoContract.JugadoresEntry.COLUMN_FIRST_NAME + " VARCHAR, " +
+                GolazoContract.JugadoresEntry.COLUMN_LAST_NAME + " VARCHAR " +
+                " );";
+
         db.execSQL(SQL_CREATE_EQUIPOS_TABLE);
         db.execSQL(SQL_CREATE_PARTIDOS_TABLE);
         db.execSQL(SQL_CREATE_POSICIONES_TABLE);
+        db.execSQL(SQL_CREATE_JUGADORES_TABLE);
         Log.d("Todos los tablas: ", "Se crearon las tablas");
     }
 
@@ -66,6 +74,7 @@ public class Crear_db  extends SQLiteOpenHelper
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GolazoContract.PartidosEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GolazoContract.EquiposEntry.TABLE_NAME);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GolazoContract.PosicionesEntry.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GolazoContract.JugadoresEntry.TABLE_NAME);
         onCreate(sqLiteDatabase);
     }
 }

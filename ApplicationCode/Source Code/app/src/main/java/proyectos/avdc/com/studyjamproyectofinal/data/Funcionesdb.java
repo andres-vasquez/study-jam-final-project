@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import proyectos.avdc.com.studyjamproyectofinal.POJO.EquiposItem;
+import proyectos.avdc.com.studyjamproyectofinal.POJO.JugadoresItem;
 import proyectos.avdc.com.studyjamproyectofinal.data.Crear_db;
 
 /**
@@ -127,5 +128,30 @@ public class Funcionesdb {
         else {
             return new EquiposItem(99, "No encontrado", "ninguno.png", android.R.drawable.btn_star_big_off);
         }
+    }
+
+    public static List<JugadoresItem> LlenarJugadores(Context context, int intIdEquipo) {
+        List<JugadoresItem> resultado = new ArrayList<JugadoresItem>();
+
+        try {
+            Crear_db db = new Crear_db(context);
+            SQLiteDatabase dbo = db.getReadableDatabase();
+
+            Cursor cursor = dbo.rawQuery("SELECT _id, firstname, lastname FROM jugadores WHERE id_team=?",new String[]{String.valueOf(intIdEquipo)});
+            if (cursor.moveToFirst()) {
+                do {
+                    try {
+                        JugadoresItem jugadoresItem = new JugadoresItem(cursor.getInt(0),cursor.getString(1),cursor.getString(2));
+                        resultado.add(jugadoresItem);
+                    } catch (Exception e) {
+                        Log.e("Exception", "" + e.getMessage());
+                    }
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            dbo.close();
+        } catch (Exception e) {
+        }
+        return resultado;
     }
 }

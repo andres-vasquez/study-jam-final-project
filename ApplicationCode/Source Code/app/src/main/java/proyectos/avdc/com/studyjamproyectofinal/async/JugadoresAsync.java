@@ -1,5 +1,6 @@
 package proyectos.avdc.com.studyjamproyectofinal.async;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,9 +13,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import proyectos.avdc.com.studyjamproyectofinal.POJO.JugadoresItem;
+import proyectos.avdc.com.studyjamproyectofinal.POJO.MatchItem;
 import proyectos.avdc.com.studyjamproyectofinal.config.ParametrosConfig;
+import proyectos.avdc.com.studyjamproyectofinal.data.GolazoContract;
 import proyectos.avdc.com.studyjamproyectofinal.utils.JSONParser;
 
 /**
@@ -46,6 +50,26 @@ public class JugadoresAsync extends AsyncTask<Integer, Integer, List<JugadoresIt
             if (resultadoJson.isSuccess())
             {
                 TotalMatches = resultadoJson.getResult().size();
+                Vector<ContentValues> cVVector = new Vector<ContentValues>(resultadoJson.getResult().size());
+
+                for(JugadoresItem item : resultadoJson.getResult()) {
+
+                    ContentValues values = new ContentValues();
+                    values.put(GolazoContract.JugadoresEntry.COLUMN_FIRST_NAME, item.getFirstname());
+                    values.put(GolazoContract.JugadoresEntry.COLUMN_LAST_NAME, item.getLastname());
+                    values.put(GolazoContract.JugadoresEntry.COLUMN_ID_TEAM, args[0]);
+                    cVVector.add(values);
+                }
+                if ( cVVector.size() > 0 )
+                {
+                    ContentValues[] cvArray = new ContentValues[cVVector.size()];
+                    cVVector.toArray(cvArray);
+
+                    context.getContentResolver().delete(GolazoContract.JugadoresEntry.CONTENT_URI,null,null);
+                    context.getContentResolver().bulkInsert(GolazoContract.JugadoresEntry.CONTENT_URI, cvArray);
+                }
+                Log.d(LOG, "Sync Complete. " + cVVector.size() + " Inserted");
+
                 return resultadoJson.getResult();
             }
         } catch (NullPointerException e) {

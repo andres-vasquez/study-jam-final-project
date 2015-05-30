@@ -32,10 +32,10 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fontAwesome = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
+        fontAwesome = Typeface.createFromAsset(getAssets(), getString(R.string.font_awesome));
 
         Intent notificaciones = new Intent();
-        notificaciones.setAction("proyectos.avdc.notificaciones");
+        notificaciones.setAction(getString(R.string.action_notification));
         sendBroadcast(notificaciones);
 
         mTabHost = (TabHost) findViewById(android.R.id.tabhost);
@@ -74,10 +74,8 @@ public class MainActivity extends ActionBarActivity {
                 }
             };
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("STUDY JAM GDG LA PAZ 2015 \n\n Web Services dessarrollados por: \n" +
-                    " -Daniel Canedo  \n\n Aplicación desarrollada por:" +
-                    " \n -Andrés Vasquez")
-                    .setPositiveButton("Entendido", dialogClickListener);
+            builder.setMessage(getString(R.string.app_info))
+                    .setPositiveButton(getString(R.string.entendido), dialogClickListener);
             builder.show();
         } else if (item.getItemId() == R.id.action_settings) {
             startActivity(new Intent(this, Preferencias.class));

@@ -16,6 +16,7 @@ public class GolazoContract {
     public static final String PATH_PARTIDOS = "partidos";
     public static final String PATH_POSICIONES = "posiciones";
     public static final String PATH_EQUIPOS = "equipos";
+    public static final String PATH_JUGADORES = "jugadores";
 
 
     public static final class EquiposEntry implements BaseColumns
@@ -95,6 +96,25 @@ public class GolazoContract {
         public static final String COLUMN_POINTS = "points";
 
         public static Uri buildPosicionesUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+    }
+
+    public static final class JugadoresEntry implements BaseColumns {
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_JUGADORES).build();
+
+        public static final String CONTENT_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_JUGADORES;
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_JUGADORES;
+
+        public static final String TABLE_NAME = "jugadores";
+        public static final String COLUMN_FIRST_NAME = "firstname";
+        public static final String COLUMN_LAST_NAME = "lastname";
+        public static final String COLUMN_ID_TEAM = "id_team";
+
+        public static Uri buildJugadoresUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }

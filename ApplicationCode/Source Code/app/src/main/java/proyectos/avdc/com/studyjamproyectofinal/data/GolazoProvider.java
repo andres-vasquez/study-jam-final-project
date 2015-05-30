@@ -20,6 +20,7 @@ public class GolazoProvider extends ContentProvider {
     static final int PARTIDOS = 100;
     static final int POSICIONES = 200;
     static final int EQUIPOS = 300;
+    static final int JUGADORES = 400;
     static final int EQUIPOS_POR_ID = 301;
 
     private static final String sEquipoSelection =
@@ -55,6 +56,7 @@ public class GolazoProvider extends ContentProvider {
         matcher.addURI(authority, GolazoContract.PATH_POSICIONES, POSICIONES);
         matcher.addURI(authority, GolazoContract.PATH_EQUIPOS, EQUIPOS);
         matcher.addURI(authority, GolazoContract.PATH_EQUIPOS + "/*", EQUIPOS_POR_ID);
+        matcher.addURI(authority, GolazoContract.PATH_JUGADORES, JUGADORES);
         return matcher;
     }
 
@@ -130,6 +132,8 @@ public class GolazoProvider extends ContentProvider {
                 return GolazoContract.PartidosEntry.CONTENT_TYPE;
             case POSICIONES:
                 return GolazoContract.PosicionesEntry.CONTENT_TYPE;
+            case JUGADORES:
+                return GolazoContract.JugadoresEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -165,6 +169,14 @@ public class GolazoProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert row into " + uri);
                 break;
             }
+            case JUGADORES: {
+                long _id = db.insert(GolazoContract.JugadoresEntry.TABLE_NAME, null, values);
+                if (_id > 0)
+                    returnUri = GolazoContract.JugadoresEntry.buildJugadoresUri(_id);
+                else
+                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                break;
+            }
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -190,6 +202,10 @@ public class GolazoProvider extends ContentProvider {
             case EQUIPOS:
                 rowsDeleted = db.delete(
                         GolazoContract.EquiposEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case JUGADORES:
+                rowsDeleted = db.delete(
+                        GolazoContract.JugadoresEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -217,6 +233,10 @@ public class GolazoProvider extends ContentProvider {
                 break;
             case EQUIPOS:
                 rowsUpdated = db.update(GolazoContract.EquiposEntry.TABLE_NAME, values, selection,
+                        selectionArgs);
+                break;
+            case JUGADORES:
+                rowsUpdated = db.update(GolazoContract.JugadoresEntry.TABLE_NAME, values, selection,
                         selectionArgs);
                 break;
             default:
@@ -281,6 +301,22 @@ public class GolazoProvider extends ContentProvider {
                 }
                 getContext().getContentResolver().notifyChange(uri, null);
                 return returnCount2;
+            case JUGADORES:
+                db.beginTransaction();
+                int returnCount3 = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(GolazoContract.JugadoresEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount3++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount3;
             default:
                 return super.bulkInsert(uri, values);
         }

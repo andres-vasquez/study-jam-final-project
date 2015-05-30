@@ -44,4 +44,9 @@
     <string name="pref_intervalo_key">intervalo</string>
     <string name="pref_intervalo_default">15</string>
 
+    <string name="action_notification">proyectos.avdc.notificaciones</string>
+    <string name="font_awesome">fontawesome-webfont.ttf</string>
+    <string name="app_info">STUDY JAM GDG LA PAZ 2015\n\n Web Services dessarrollados por:\n -Daniel Canedo  \n\n Aplicación desarrollada por:\n -Andrés Vasquez</string>
+    <string name="entendido">Entendido</string>
+
 </resources>

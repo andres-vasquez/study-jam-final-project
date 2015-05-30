@@ -28,6 +28,7 @@ import proyectos.avdc.com.studyjamproyectofinal.POJO.JugadoresItem;
 import proyectos.avdc.com.studyjamproyectofinal.R;
 import proyectos.avdc.com.studyjamproyectofinal.adapters.EquiposAdapter;
 import proyectos.avdc.com.studyjamproyectofinal.async.JugadoresAsync;
+import proyectos.avdc.com.studyjamproyectofinal.async.JugadoresLocalAsync;
 import proyectos.avdc.com.studyjamproyectofinal.data.GolazoContract;
 import proyectos.avdc.com.studyjamproyectofinal.utils.Media;
 
@@ -53,30 +54,6 @@ public class DetalleEquipo extends Fragment {
 
     private SharedPreferences preferences;
     public int idEquipo;
-
-    private static final String[] POSICIONES_COLUMNS = {
-            GolazoContract.PosicionesEntry.TABLE_NAME + "." + GolazoContract.PosicionesEntry._ID,
-            GolazoContract.PosicionesEntry.COLUMN_PLAYED,
-            GolazoContract.PosicionesEntry.COLUMN_DRAWN,
-            GolazoContract.PosicionesEntry.COLUMN_GOALS_AGAINST,
-            GolazoContract.PosicionesEntry.COLUMN_GOALS_DIFFERENCE,
-            GolazoContract.PosicionesEntry.COLUMN_GOALS_FOR,
-            GolazoContract.PosicionesEntry.COLUMN_LOST,
-            GolazoContract.PosicionesEntry.COLUMN_NAME,
-            GolazoContract.PosicionesEntry.COLUMN_POINTS,
-            GolazoContract.PosicionesEntry.COLUMN_WON,
-    };
-
-    static final int COL_POSICION_ID = 0;
-    static final int COL_PLAYED = 1;
-    static final int COL_DRAWN = 2;
-    static final int COL_GOALS_AGAINST = 3;
-    static final int COL_GOALS_DIFFERENCE = 4;
-    static final int COL_GOALS_FOR = 5;
-    static final int COL_LOST = 6;
-    static final int COL_NAME = 7;
-    static final int COL_POINTS = 8;
-    static final int COL_WON = 9;
 
     public DetalleEquipo() {
     }
@@ -131,7 +108,18 @@ public class DetalleEquipo extends Fragment {
                 }
             });
 
-            if(lstJugadores==null) {
+            if(lstJugadores==null)
+            {
+                //Fill Players from database
+                JugadoresLocalAsync jugadoresLocalAsync = new JugadoresLocalAsync(getActivity(), new JugadoresLocalAsync.Receiver() {
+                    @Override
+                    public void onLoad(int totalMatches, List<JugadoresItem> lstJugadores) {
+                        MostrarJugadores(lstJugadores);
+                    }
+                });
+                jugadoresLocalAsync.execute(objEquipo.getIntIdEquipo());
+
+                //Fill Players from database
                 JugadoresAsync jugadoresAsync = new JugadoresAsync(getActivity(), new JugadoresAsync.Receiver() {
                     @Override
                     public void onLoad(int totalMatches, List<JugadoresItem> lstJugadores) {
@@ -165,6 +153,7 @@ public class DetalleEquipo extends Fragment {
 
     public void MostrarJugadores(List<JugadoresItem> lstJugadores)
     {
+        llJugadores.removeAllViews();
         for(JugadoresItem jugador : lstJugadores)
         {
             try {
